@@ -1,6 +1,6 @@
 import React from "react";
 import StepperForm from "./components/StepperForm";
-import Dashboard from "./components/Dashboard";
+import "./App.css"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 const App = () => {
   return (
@@ -9,8 +9,7 @@ const App = () => {
         <div>
           <Routes>
             <Route path="/" element={<StepperForm />} />
-            <Route path="/Dashboard" element={<Dashboard />} />
-            <Route path="/suraz-progress-login-form.vercel.app/Dashboard" element={<Dashboard />} />
+            
           </Routes>
         </div>
       </Router>

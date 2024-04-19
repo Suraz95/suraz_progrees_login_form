@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Dashboard from "./Dashboard"
 import "./Stepper.css";
 const steps = ["Personal Details", "Education", "Skills", "Address"];
 const steper_data = ["Personal Details", "Education", "Skills", "Address"];
@@ -7,6 +6,7 @@ const StepperForm = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [currentstep, setcurrentstep] = useState(1);
   const [complete, setcomplete] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
   const [pro, setpro] = useState(false);
   const [formData, setFormData] = useState({
     personalDetails: {
@@ -49,25 +49,12 @@ const StepperForm = () => {
   };
 
   const handleChange = (event, step) => {
-    const { name, value, type } = event.target;
+    const { name, type } = event.target;
 
     if (type === "file" && name === "image") {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const imageUrl = reader.result;
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            [step]: {
-              ...prevFormData[step],
-              image: imageUrl,
-            },
-          }));
-        };
-        reader.readAsDataURL(file);
-      }
+      setImagePreview(URL.createObjectURL(files[0]));
     } else {
+      const { value } = event.target;
       setFormData((prevFormData) => ({
         ...prevFormData,
         [step]:
@@ -83,6 +70,10 @@ const StepperForm = () => {
     localStorage.setItem("formData", JSON.stringify(formData));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+  const handlePrint = () => {
+    alert("data uploaded Successfully");
+    window.print();
+  };
 
   const handleEdit = (stepIndex) => {
     setActiveStep(stepIndex);
@@ -90,7 +81,6 @@ const StepperForm = () => {
   };
   return (
     <>
-
       <div id="hello">
         {steper_data.map((item, i) => (
           <div
@@ -120,7 +110,7 @@ const StepperForm = () => {
               <form onSubmit={handleSubmit} data-aos="fade">
                 <h1>{label}</h1>
                 <div id="pro" style={{ marginBottom: "20px" }}>
-                  <progress value={activeStep} max={steps.length}></progress>
+                  <progress value={activeStep+1} max={steps.length}></progress>
                 </div>
                 {index === 0 && (
                   <div>
@@ -314,8 +304,67 @@ const StepperForm = () => {
         )}
       </div>
       {activeStep === steps.length && (
-        <div id="prev">
-          <button onClick={(window.location = "/Dashboard")}>Preview</button>
+        // <div id="prev">
+        //   <button onClick={(window.location = "/Dashboard")}>Preview</button>
+        // </div>
+        <div>
+          <div className="dashboard-container">
+            <h2 className="dashboard-header">Preview</h2>
+            <div className="dashboard-section">
+              <h3>Personal Details</h3>
+              <table className="dashboard-table">
+                <tbody>
+                  {Object.entries(formData.personalDetails).map(
+                    ([key, value]) => (
+                      <tr key={key}>
+                        <td>{key}</td>
+                        {key === "profileImage" ? (
+                          <td>
+                            {value && (
+                              <img
+                                src={formData.personalDetails.profileImage}
+                                alt="Profile"
+                                className="dashboard-image" // Added class name for image
+                              />
+                            )}
+                          </td>
+                        ) : (
+                          <td>{value}</td>
+                        )}
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="dashboard-section">
+              <h3>Education</h3>
+              <table className="dashboard-table">
+                <tbody>
+                  {Object.entries(formData.education).map(([key, value]) => (
+                    <tr key={key}>
+                      <td>{key}</td>
+                      <td>{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="dashboard-section">
+              <h3>Skills</h3>
+              <p>{formData.skills}</p>
+            </div>
+
+            <div className="dashboard-section">
+              <h3>Address</h3>
+              <p>{formData.address}</p>
+            </div>
+            <button onClick={handlePrint} className="dashboard-update-button">
+              Submit
+            </button>
+          </div>
         </div>
       )}
     </>
