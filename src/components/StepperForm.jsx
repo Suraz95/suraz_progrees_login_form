@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Dashboard from "./Dashboard"
 import "./Stepper.css";
 const steps = ["Personal Details", "Education", "Skills", "Address"];
 const steper_data = ["Personal Details", "Education", "Skills", "Address"];
@@ -6,6 +7,7 @@ const StepperForm = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [currentstep, setcurrentstep] = useState(1);
   const [complete, setcomplete] = useState(false);
+  const [pro, setpro] = useState(false);
   const [formData, setFormData] = useState({
     personalDetails: {
       firstName: "",
@@ -87,10 +89,9 @@ const StepperForm = () => {
     setPreviewMode(false);
   };
   return (
-    <div>
-      <div></div>
+    <>
+
       <div id="hello">
-        {/* <h1 id="hello">hello</h1> */}
         {steper_data.map((item, i) => (
           <div
             key={i}
@@ -317,7 +318,7 @@ const StepperForm = () => {
           <button onClick={(window.location = "/Dashboard")}>Preview</button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
