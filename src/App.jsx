@@ -9,6 +9,7 @@ const App = () => {
         <div>
           <Routes>
             <Route path="/" element={<StepperForm />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/suraz-progress-login-form.vercel.app/Dashboard" element={<Dashboard />} />
           </Routes>
         </div>
