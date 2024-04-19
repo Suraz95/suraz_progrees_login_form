@@ -1,19 +1,11 @@
 import React from "react";
 import StepperForm from "./components/StepperForm";
-import "./App.css"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
 const App = () => {
   return (
-    <div>
-      <Router>
-        <div>
-          <Routes>
-            <Route path="/" element={<StepperForm />} />
-            
-          </Routes>
-        </div>
-      </Router>
-    </div>
+    <>
+      <StepperForm />
+    </>
   );
 };
 export default App;
